@@ -26,29 +26,10 @@ class TopController extends Controller
 {
     public function actionIndex()
     {
-        // $data = Author::find()
-        // ->select([
-        //     Author::tableName() . ".id",
-        //     Author::tableName() . ".first_name",
-        //     Author::tableName() . ".last_name",
-        //     Author::tableName() . ".third_name",
-        //     "count(distinct " . Book::tableName() . ".id) as cnt",
-        // ])
-        // ->joinWith(["books"], false)
-        // ->where(["year" => $year])
-        // ->groupBy(["id", "year"])
-        // ->orderBy(["cnt" => SORT_DESC])
-        // ->limit(10)
-        // ->all();
-
-        // return $this->render('index', [
-        //     "data" => $data,
-        // ]);
-
         $searchModel = new TopSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render("index", [
             "dataProvider"  => $dataProvider,
             "searchModel"   => $searchModel,
         ]);

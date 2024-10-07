@@ -41,7 +41,10 @@ class SubscriptionForm extends Model
                     $sub = new Subscription();
                     $sub->phone = $this->phone;
                     $sub->author_id = $author_id;
-                    $sub->save();
+                    if (!$sub->save()) {
+                        Yii::$app->session->setFlash("warning", "Ошибка оформления подписки");
+                        return true;
+                    }
                 }
 
                 Yii::$app->session->setFlash("success", "Подписка успешно оформлена");

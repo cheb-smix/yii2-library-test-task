@@ -27,26 +27,26 @@ class BookController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::class,
-                // 'only' => ['logout', 'signup'],
-                'rules' => [
+            "access" => [
+                "class" => AccessControl::class,
+                // "only" => ["logout", "signup"],
+                "rules" => [
                     [
-                        'actions' => ['index', 'view'],
-                        'allow' => true,
-                        'roles' => ['?'],
+                        "actions" => ["index", "view"],
+                        "allow" => true,
+                        "roles" => ["?"],
                     ],
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        "actions" => ["index", "view", "create", "update", "delete"],
+                        "allow" => true,
+                        "roles" => ["@"],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
+            "verbs" => [
+                "class" => VerbFilter::class,
+                "actions" => [
+                    "logout" => ["post"],
                 ],
             ],
         ];
@@ -57,7 +57,7 @@ class BookController extends Controller
         $searchModel = new BookSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render("index", [
             "dataProvider"  => $dataProvider,
             "searchModel"   => $searchModel,
             "authors"       => Author::getList(),
@@ -80,7 +80,7 @@ class BookController extends Controller
             $subscriptionmodel->save();
         }
 
-        return $this->render('view', [
+        return $this->render("view", [
             "model"  => $model,
             "subscriptionmodel" => $subscriptionmodel,
         ]);
@@ -104,13 +104,13 @@ class BookController extends Controller
         if (Yii::$app->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
                 Yii::$app->session->setFlash("success", "Книга сохранена!");
-                return $this->redirect(Url::to(['/book/view', 'id' => $id]));
+                return $this->redirect(Url::to(["/book/view", "id" => $id]));
             }
         } else {
             $model->load(["BookForm" => ArrayHelper::toArray($book)], null);
         }
 
-        return $this->render('update', [
+        return $this->render("update", [
             "model"  => $model,
             "authors"=> Author::getList(),
         ]);
@@ -123,11 +123,11 @@ class BookController extends Controller
         if (Yii::$app->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
                 Yii::$app->session->setFlash("success", "Книга добавлена!");
-                return $this->redirect(Url::to(['/book/view', 'id' => $model->id]));
+                return $this->redirect(Url::to(["/book/view", "id" => $model->id]));
             }
         }
 
-        return $this->render('create', [
+        return $this->render("create", [
             "model"  => $model,
             "authors"=> Author::getList(),
         ]);
