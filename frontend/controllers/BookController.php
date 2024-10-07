@@ -2,11 +2,7 @@
 
 namespace frontend\controllers;
 
-use frontend\models\ResendVerificationEmailForm;
-use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\base\InvalidArgumentException;
-use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -16,8 +12,6 @@ use yii\helpers\Url;
 
 use common\models\Book;
 use common\models\Author;
-use common\models\BookToAuthor;
-use common\models\Subscription;
 use frontend\models\BookSearch;
 use frontend\models\BookForm;
 use frontend\models\SubscriptionForm;
@@ -29,7 +23,6 @@ class BookController extends Controller
         return [
             "access" => [
                 "class" => AccessControl::class,
-                // "only" => ["logout", "signup"],
                 "rules" => [
                     [
                         "actions" => ["index", "view"],
@@ -41,12 +34,6 @@ class BookController extends Controller
                         "allow" => true,
                         "roles" => ["@"],
                     ],
-                ],
-            ],
-            "verbs" => [
-                "class" => VerbFilter::class,
-                "actions" => [
-                    "logout" => ["post"],
                 ],
             ],
         ];
