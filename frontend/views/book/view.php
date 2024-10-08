@@ -4,12 +4,11 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\widgets\DetailView;
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params["breadcrumbs"][] = ["label" => "Каталог", "url" => ["index"]];
+$this->params["breadcrumbs"][] = $this->title;
 
 $subauthors = [];
 foreach ($model->authorsNames as $author) {
@@ -20,13 +19,13 @@ foreach ($model->authorsNames as $author) {
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
+        "model" => $model,
+        "attributes" => [
             "id",
             [
-                'attribute' => 'image',
-                'format' => 'raw',
-                'value' => function ($model) {
+                "attribute" => "image",
+                "format" => "raw",
+                "value" => function ($model) {
                     return Html::img($model->image, ["style" => "width: 50px"]);
                 },
             ],
@@ -35,10 +34,10 @@ foreach ($model->authorsNames as $author) {
             "description",
             "isbn",
             [
-                'attribute' => 'authorsNames',
-                'label'     => 'Авторы',
-                'format'    => 'raw',
-                'value'     => function ($model) {
+                "attribute" => "authorsNames",
+                "label"     => "Авторы",
+                "format"    => "raw",
+                "value"     => function ($model) {
                     return implode("<br>", array_map(function($row) {
                         return $row->first_name . " " . $row->last_name;
                     }, $model->authorsNames));
@@ -54,8 +53,8 @@ foreach ($model->authorsNames as $author) {
             "subauthors" => $subauthors,
         ]);
     } else {
-        echo Html::a("Редактировать", Url::to(['/book/update', 'id' => $model['id']]), ["class" => "btn btn-primary"]);
-        echo Html::a("Удалить", Url::to(['/book/delete', 'id' => $model['id']]), ["class" => "btn btn-danger"]);
+        echo Html::a("Редактировать", Url::to(["/book/update", "id" => $model["id"]]), ["class" => "btn btn-primary"]);
+        echo Html::a("Удалить", Url::to(["/book/delete", "id" => $model["id"]]), ["class" => "btn btn-danger"]);
     }
     ?>
 </div>

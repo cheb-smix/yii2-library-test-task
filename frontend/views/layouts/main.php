@@ -28,32 +28,33 @@ AppAsset::register($this);
 <header>
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
+        "brandLabel" => Yii::$app->name,
+        "brandUrl" => Yii::$app->homeUrl,
+        "options" => [
+            "class" => "navbar navbar-expand-md navbar-dark bg-dark fixed-top",
         ],
     ]);
     $menuItems = [
-        ['label' => 'Главная', 'url' => ['/site/index']],
-        ['label' => 'Каталог', 'url' => ['/book/index']],
-        ['label' => 'Топ-10 авторов', 'url' => ['/top/index']],
+        ["label" => "Главная", "url" => ["/site/index"]],
+        ["label" => "Каталог", "url" => ["/book/index"]],
+        ["label" => "Авторы книг", "url" => ["/author/index"]],
+        ["label" => "Топ-10 авторов", "url" => ["/author/top"]],
     ];
     // if (Yii::$app->user->isGuest) {
-    //     $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+    //     $menuItems[] = ["label" => "Регистрация", "url" => ["/site/signup"]];
     // }
 
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-        'items' => $menuItems,
+        "options" => ["class" => "navbar-nav me-auto mb-2 mb-md-0"],
+        "items" => $menuItems,
     ]);
     if (Yii::$app->user->isGuest) {
-        echo Html::tag('div',Html::a('Авторизоваться', ['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
+        echo Html::tag("div",Html::a("Авторизоваться", ["/site/login"],["class" => ["btn btn-link login text-decoration-none"]]),["class" => ["d-flex"]]);
     } else {
-        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
+        echo Html::beginForm(["/site/logout"], "post", ["class" => "d-flex"])
             . Html::submitButton(
-                'Выйти (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none']
+                "Выйти (" . Yii::$app->user->identity->username . ")",
+                ["class" => "btn btn-link logout text-decoration-none"]
             )
             . Html::endForm();
     }
@@ -64,7 +65,8 @@ AppAsset::register($this);
 <main role="main" class="flex-shrink-0">
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            "homeLink" => ["url" => "/site/index", "label" => "Главная"],
+            "links" => isset($this->params["breadcrumbs"]) ? $this->params["breadcrumbs"] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
@@ -73,7 +75,7 @@ AppAsset::register($this);
 
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
-        <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+        <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date("Y") ?></p>
         <p class="float-end"><?= Yii::powered() ?></p>
     </div>
 </footer>

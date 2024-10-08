@@ -1,7 +1,6 @@
 <?php
 
 use yii\db\Migration;
-use common\models\User;
 
 /**
  * Handles the creation of table `{{%book}}`.

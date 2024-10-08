@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\data\ActiveDataProvider;
 use common\models\Book;
 
