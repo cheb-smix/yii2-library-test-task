@@ -19,7 +19,7 @@ class SubscriptionPopup {
         this.form.className = "subscription-popup-form";
         this.form.innerHTML = `<legend>Подписка на новые книги автора ${this.authorName}</legend>
         <div class="popup-phone-input-wrap">
-            <input placeholder="Номер телефона" type="text" class="form-control" id="phone" value="+79003308311" />
+            <input placeholder="Номер телефона" type="text" class="form-control" id="phone" />
         </div>
         <button class="btn">Подписаться</button>
         </form>`;
