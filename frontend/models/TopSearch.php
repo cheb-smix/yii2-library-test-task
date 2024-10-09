@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\data\ActiveDataProvider;
 use common\models\Author;
 use common\models\Book;
@@ -14,7 +13,7 @@ class TopSearch extends Author
 
     public static function tableName()
     {
-        return 'author';
+        return "author";
     }
 
     public function rules()
@@ -48,7 +47,7 @@ class TopSearch extends Author
         ->limit(10);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            "query" => $query,
         ]);
     
         if (!($this->load($params) && $this->validate())) {

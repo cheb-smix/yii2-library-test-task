@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 class Book extends ActiveRecord 
@@ -31,12 +30,12 @@ class Book extends ActiveRecord
 
     public function getAuthors()
     {
-        return $this->hasMany(BookToAuthor::class, ['book_id' => 'id']);
+        return $this->hasMany(BookToAuthor::class, ["book_id" => "id"]);
     }
 
     public function getAuthorsNames()
     {
-        return $this->hasMany(Author::class, ['id' => 'author_id'])->viaTable(BookToAuthor::tableName(), ['book_id' => 'id']);
+        return $this->hasMany(Author::class, ["id" => "author_id"])->viaTable(BookToAuthor::tableName(), ["book_id" => "id"]);
     }
 
 }

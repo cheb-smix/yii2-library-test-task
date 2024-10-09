@@ -57,13 +57,20 @@ class BookForm extends Model
         if ($model->save()) {
             if ($this->authors) {
                 if (!$newBook) {
-                    BookToAuthor::deleteAll(["book_id" => $this->id]);
+                    BookToAuthor::deleteAll([
+                        "AND",
+                        ["book_id" => $this->id],
+                        ["NOT IN", "author_id", $this->authors],
+                    ]);
                 }
                 foreach ($this->authors as $author_id) {
                     $bta = new BookToAuthor();
                     $bta->book_id = $model->id;
                     $bta->author_id = $author_id;
-                    $bta->save();
+                    if (!$bta->save()) {
+                        $this->addError("authors", "Не удалось указать автора книги");
+                        return false;
+                    }
                 }
 
                 if ($newBook) {

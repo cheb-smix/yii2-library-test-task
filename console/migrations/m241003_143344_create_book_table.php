@@ -1,7 +1,6 @@
 <?php
 
 use yii\db\Migration;
-use common\models\User;
 
 /**
  * Handles the creation of table `{{%book}}`.
@@ -41,6 +40,9 @@ class m241003_143344_create_book_table extends Migration
             'author_id' => $this->integer(),
         ]);
 
+        // Уникальность записей
+        $this->createIndex('book_to_author-idx-unique', '{{%book_to_author}}', ['book_id', 'author_id'], true);
+
         // Внешний ключ (при удалении книги - записи, связанные с этой книгой, из таблицы book_to_author затираем)
         $this->addForeignKey(
             'fk-book_to_author-book_id',
@@ -68,6 +70,9 @@ class m241003_143344_create_book_table extends Migration
             'author_id' => $this->integer(),
         ]);
 
+        // Уникальность записей
+        $this->createIndex('subscription-idx-unique', '{{%subscription}}', ['phone', 'author_id'], true);
+
         // Внешний ключ (при удалении автора - подписки на него удаляются)
         $this->addForeignKey(
             'fk-subscription-author_id',
@@ -89,10 +94,14 @@ class m241003_143344_create_book_table extends Migration
     {
         $this->dropForeignKey('fk-subscription-author_id', 'subscription');
 
+        $this->dropIndex('subscription-idx-unique', '{{%subscription}}');
+
         $this->dropTable('{{%subscription}}');
 
         $this->dropForeignKey('fk-book_to_author-author_id', 'book_to_author');
         $this->dropForeignKey('fk-book_to_author-book_id', 'book_to_author');
+
+        $this->dropIndex('book_to_author-idx-unique', '{{%book_to_author}}');
 
         $this->dropTable('{{%book_to_author}}');
         $this->dropTable('{{%author}}');
@@ -138,7 +147,7 @@ class m241003_143344_create_book_table extends Migration
             array_combine($bookCols, ['Математика. 6 класс', 2013, '', '', '']),
         ];
 
-        $this->batchInsert("book", $bookCols, $books);
+        $this->batchInsert('book', $bookCols, $books);
 
         $authorCols = ['first_name', 'last_name', 'third_name'];
 
@@ -148,14 +157,14 @@ class m241003_143344_create_book_table extends Migration
             array_combine($authorCols, ['Виталий', 'Полонский', '']),
         ];
 
-        $this->batchInsert("author", $authorCols, $authors);
+        $this->batchInsert('author', $authorCols, $authors);
 
-        $this->batchInsert("book_to_author", [
+        $this->batchInsert('book_to_author', [
             'book_id',
             'author_id',
         ], [[1, 1], [2, 1], [3, 1], [4, 1], [5, 2], [5, 3]]);
 
-        $this->batchInsert("subscription", [
+        $this->batchInsert('subscription', [
             'phone',
             'author_id',
         ], [['79008003050', 1]]);

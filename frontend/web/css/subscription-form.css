@@ -1,0 +1,67 @@
+.subscription-popup-background {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+.subscription-popup-form {
+    background-color: white;
+    position: fixed;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    opacity: 0;
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+    width: 30vw;
+    min-height: 30vh;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 10005;
+}
+.subscription-popup-form > * {
+    margin: 10px !important;
+}
+.subscription-popup-form button {
+    background-color: rgba(240, 46, 170, 1);
+    color: white;
+}
+.subscription-popup-form button:hover {
+    background-color: rgb(175, 39, 125);
+    color: white;
+}
+.popup-phone-input-wrap {
+    position: relative;
+}
+.popup-input-warning > input {
+    border-color: red !important;
+}
+.popup-input-correct > input {
+    border-color: green !important;
+}
+.popup-input-warning::after {
+    content: attr(data-warning);
+    display: block;
+    margin: 0;
+    position: absolute;
+    font-size: 10px;
+    color: red;
+}
+.popup-shown {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+.subscription-popup-form > i {
+    transform: rotate(90deg);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+}
+.subscription-popup-form > i.inited {
+    transform: rotate(0deg);
+    opacity: 1;
+}

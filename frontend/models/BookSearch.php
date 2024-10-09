@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\data\ActiveDataProvider;
 use common\models\Book;
 
@@ -12,7 +11,7 @@ class BookSearch extends Book
 
     public static function tableName()
     {
-        return 'book';
+        return "book";
     }
 
     public function rules()
@@ -34,7 +33,7 @@ class BookSearch extends Book
         $query = self::find()->joinWith(["authors"]);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            "query" => $query,
         ]);
     
         if (!($this->load($params) && $this->validate())) {

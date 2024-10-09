@@ -2,7 +2,6 @@
 
 namespace frontend\helpers;
 
-use Yii;
 use frontend\models\BookForm;
 use common\models\Author;
 use common\models\Subscription;
