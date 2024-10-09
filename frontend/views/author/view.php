@@ -26,10 +26,12 @@ $this->params["breadcrumbs"][] = $this->title;
 
     <?php
     if (Yii::$app->user->isGuest) {
-        // echo $this->render("_subform", [
-        //     "subscriptionmodel" => $subscriptionmodel, 
-        //     "subauthors" => $subauthors,
-        // ]);
+        echo $this->render("_subform", [
+            "author_id" => $model->id,
+            "author_name" => $model->first_name . " " . $model->last_name,
+            "btnLabel" => "Подписаться на новые книги автора",
+            "btnClass" => "btn btn-success btn-lg",
+        ]);
     } else {
         echo Html::a("Редактировать", Url::to(["/author/update", "id" => $model["id"]]), ["class" => "btn btn-primary"]);
         echo Html::a("Удалить", Url::to(["/author/delete", "id" => $model["id"]]), ["class" => "btn btn-danger"]);

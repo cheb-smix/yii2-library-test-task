@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -37,6 +38,19 @@ class AuthorController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        if ($action->id == "subscribe") {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+        }
+
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function actionIndex()
@@ -112,6 +126,34 @@ class AuthorController extends Controller
             "dataProvider"  => $dataProvider,
             "searchModel"   => $searchModel,
         ]);
+    }
+
+    public function actionSubscribe($id)
+    {
+        if (!Yii::$app->request->isAjax) {
+            return [
+                "success"   => false,
+                "message"   => "Некорректный запрос",
+            ];
+        }
+
+        $model = $this->findModel($id);
+
+        $subscription = new SubscriptionForm();
+        $subscription->author_id = $model->id;
+        $subscription->phone = Yii::$app->request->post("phone");
+
+        if (!$subscription->validate() || !$subscription->save()) {
+            return [
+                "success"   => false,
+                "message"   => current($subscription->getFirstErrors()),
+            ];
+        }
+
+        return [
+            "success"   => true,
+            "message"   => "Подписка на автора {$model->first_name} {$model->last_name} успешно оформлена!",
+        ];
     }
 
     private function findModel($id)

@@ -70,6 +70,9 @@ class m241003_143344_create_book_table extends Migration
             'author_id' => $this->integer(),
         ]);
 
+        // Уникальность записей
+        $this->createIndex('subscription-idx-unique', '{{%subscription}}', ['phone', 'author_id'], true);
+
         // Внешний ключ (при удалении автора - подписки на него удаляются)
         $this->addForeignKey(
             'fk-subscription-author_id',
@@ -91,10 +94,14 @@ class m241003_143344_create_book_table extends Migration
     {
         $this->dropForeignKey('fk-subscription-author_id', 'subscription');
 
+        $this->dropIndex('subscription-idx-unique', '{{%subscription}}');
+
         $this->dropTable('{{%subscription}}');
 
         $this->dropForeignKey('fk-book_to_author-author_id', 'book_to_author');
         $this->dropForeignKey('fk-book_to_author-book_id', 'book_to_author');
+
+        $this->dropIndex('book_to_author-idx-unique', '{{%book_to_author}}');
 
         $this->dropTable('{{%book_to_author}}');
         $this->dropTable('{{%author}}');

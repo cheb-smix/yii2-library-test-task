@@ -39,7 +39,15 @@ foreach ($model->authorsNames as $author) {
                 "format"    => "raw",
                 "value"     => function ($model) {
                     return implode("<br>", array_map(function($row) {
-                        return $row->first_name . " " . $row->last_name;
+                        return (
+                            Yii::$app->user->isGuest ? $this->render("/author/_subform", [
+                                "author_id"     => $row->id,
+                                "author_name"   => $row->first_name . " " . $row->last_name,
+                                "btnTag"        => "i",
+                                "btnClass"      => "fa fa-plus-square text-success",
+                                "btnLabel"      => "",
+                            ]) . " &nbsp; " : ""
+                        ) . $row->first_name . " " . $row->last_name;
                     }, $model->authorsNames));
                 },
             ],
@@ -47,12 +55,7 @@ foreach ($model->authorsNames as $author) {
     ]) ?>
 
     <?php
-    if (Yii::$app->user->isGuest) {
-        echo $this->render("_subform", [
-            "subscriptionmodel" => $subscriptionmodel, 
-            "subauthors" => $subauthors,
-        ]);
-    } else {
+    if (!Yii::$app->user->isGuest) {
         echo Html::a("Редактировать", Url::to(["/book/update", "id" => $model["id"]]), ["class" => "btn btn-primary"]);
         echo Html::a("Удалить", Url::to(["/book/delete", "id" => $model["id"]]), ["class" => "btn btn-danger"]);
     }
