@@ -56,14 +56,20 @@ class BookForm extends Model
 
         if ($model->save()) {
             if ($this->authors) {
+                $dbCheck = [];
                 if (!$newBook) {
                     BookToAuthor::deleteAll([
                         "AND",
                         ["book_id" => $this->id],
                         ["NOT IN", "author_id", $this->authors],
                     ]);
+
+                    $dbCheck = BookToAuthor::find()->select("author_id")->where("book_id")->column();
                 }
                 foreach ($this->authors as $author_id) {
+                    if (in_array($author_id, $dbCheck)) {
+                        continue;
+                    }
                     $bta = new BookToAuthor();
                     $bta->book_id = $model->id;
                     $bta->author_id = $author_id;
