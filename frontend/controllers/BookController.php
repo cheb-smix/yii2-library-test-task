@@ -52,11 +52,7 @@ class BookController extends Controller
 
     public function actionView($id)
     {
-        $model = Book::find()->where(["id" => $id])->with("authorsNames")->one();
-
-        if (!$model) {
-            throw new NotFoundHttpException();
-        }
+        $model = $this->findModel($id, ["authorsNames"]);
 
         $subscriptionmodel = new SubscriptionForm();
 
@@ -74,11 +70,7 @@ class BookController extends Controller
 
     public function actionUpdate($id)
     {
-        $book = Book::find()->where(["id" => $id])->with("authors")->asArray()->one();
-
-        if (!$book) {
-            throw new NotFoundHttpException();
-        }
+        $book = $this->findModel($id, ["authors"], true);
 
         $book["authors"] = array_map(function($item) {
             return $item["author_id"];
@@ -121,14 +113,21 @@ class BookController extends Controller
 
     public function actionDelete($id)
     {
-        $book = Book::find()->where(["id" => $id])->one();
-
-        if (!$book) {
-            throw new NotFoundHttpException();
-        }
+        $book = $this->findModel($id);
 
         if ($book->delete()) {
             return $this->redirect(Url::to(["/book/index"]));
         }
+    }
+
+    private function findModel($id, $relations = [], $asArray = false)
+    {
+        $model = Book::find()->where(["id" => $id])->with($relations)->asArray($asArray)->one();
+
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+
+        return $model;
     }
 }

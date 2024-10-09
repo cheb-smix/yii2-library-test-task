@@ -37,6 +37,11 @@ class AuthorForm extends Model
         $model->last_name   = $this->last_name;
         $model->third_name  = $this->third_name;
 
-        return $model->save();
+        if ($model->save()) {
+            $this->id = $model->id;
+            return true;
+        }
+
+        return false;
     }
 }

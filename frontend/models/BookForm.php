@@ -92,6 +92,8 @@ class BookForm extends Model
                 }
             }
 
+            $this->id = $model->id;
+
             return true;
         } else {
             return false;
