@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use yii\data\ActiveDataProvider;
 use common\models\Book;
+use yii\db\Expression;
 
 class BookSearch extends Book
 {
@@ -11,12 +12,16 @@ class BookSearch extends Book
 
     public static function tableName()
     {
-        return "book";
+        return 'book';
     }
 
     public function rules()
     {
-        return parent::rules() + [
+        return [
+            [["title", "image"], "string", "length" => [0, 256]],
+            [["year"], "integer", "min" => 0, "max" => 65535],
+            [["description"], "string"],
+            [["isbn"], "string", "length" => [0, 32]],
             [["authors_list"], "each", "rule" => ["integer"]],
         ];
     }
@@ -40,8 +45,11 @@ class BookSearch extends Book
             return $dataProvider;
         }
 
+        if ($this->title) {
+            $query->andWhere(new Expression("MATCH (`title`, `description`) AGAINST ('{$this->title}*' IN BOOLEAN MODE)"));
+        }
+
         $query->andFilterWhere([
-            "LIKE", "title", $this->title,
             "=", "year", $this->year,
             "LIKE", "isbn", $this->isbn,
         ]);
